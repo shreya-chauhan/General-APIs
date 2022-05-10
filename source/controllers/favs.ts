@@ -1,32 +1,32 @@
 import { Request, Response, NextFunction } from 'express';
 import axios, { AxiosResponse } from 'axios';
 
-interface Post {
-    userId: Number;
+interface Favourite {
+    orgId: Number;
     id: Number;
-    title: String;
-    body: String;
+    name: String;
+    link: String;
 }
 
 // getting all favs
-const getPosts = async (req: Request, res: Response, next: NextFunction) => {
-    // get some posts
+const getAllFavs = async (req: Request, res: Response, next: NextFunction) => {
+    // get some favs
     let result: AxiosResponse = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
-    let posts: [Post] = result.data;
+    let favs: [Favourite] = result.data;
     return res.status(200).json({
-        message: posts
+        message: favs
     });
 };
 
 // adding a fav
-const addPost = async (req: Request, res: Response, next: NextFunction) => {
+const addFav = async (req: Request, res: Response, next: NextFunction) => {
     // get the data from req.body
-    let title: string = req.body.title;
-    let body: string = req.body.body;
-    // add the post
+    let name: string = req.body.name;
+    let link: string = req.body.link;
+    // add the fav
     let response: AxiosResponse = await axios.post(`https://jsonplaceholder.typicode.com/posts`, {
-        title,
-        body
+        name,
+        link
     });
     // return response
     return res.status(200).json({
@@ -35,15 +35,15 @@ const addPost = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // deleting a fav
-const deletePost = async (req: Request, res: Response, next: NextFunction) => {
-    // get the post id from req.params
+const deleteFav = async (req: Request, res: Response, next: NextFunction) => {
+    // get the fav id from req.params
     let id: string = req.params.id;
-    // delete the post
+    // delete the fav
     let response: AxiosResponse = await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`);
     // return response
     return res.status(200).json({
-        message: 'post deleted successfully'
+        message: 'fav deleted successfully'
     });
 };
 
-export default { getPosts, addPost, deletePost };
+export default { getAllFavs, addFav, deleteFav };

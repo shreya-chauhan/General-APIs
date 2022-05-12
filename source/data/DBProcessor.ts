@@ -16,11 +16,10 @@ async function addToFavourite(orgId: string , id: string, pageName: string, page
     }
   };
 
-  let result;
-  documentClient.put(params, function(err, data) {
-    if (err) result = err;
-    else result = data;
-  });
+  const result = await documentClient.put(params, function(err, data) {
+    if (err) return err;
+    else return data;
+  }).promise();
   return result;
 }
 
@@ -33,11 +32,10 @@ async function deleteFavourite(orgId: string , id: string){
     }
   };
 
-  let result;
-  documentClient.delete(params, function(err, data) {
-    if (err) result = err;
-    else result = data;
-  });
+  const result = await documentClient.delete(params, function(err, data) {
+    if (err) return err;
+    else return data;
+  }).promise();
   return result;
 }
 
@@ -47,13 +45,14 @@ async function getAllFavourite() {
     TableName : 'wem-hackathon-page'
   };
   
-  let result;
-  documentClient.scan(params, function(err, data) {
-    if (err) result = err;
-    else result = data;
-  });
+  const result = await documentClient.scan(params, function(err, data) {
+    if (err) return err;
+    else  if(data) {
+        return data;
+    } 
+  }).promise();
   return result;
-  
+
 }
 
 export default {addToFavourite, deleteFavourite, getAllFavourite};

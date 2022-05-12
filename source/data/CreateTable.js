@@ -1,10 +1,10 @@
-var AWS = require("aws-sdk");
+import { config, DynamoDB } from "aws-sdk";
 
-AWS.config.update({
+config.update({
   region: "us-east-1"
 });
 
-var dynamodb = new AWS.DynamoDB();
+var dynamodb = new DynamoDB();
 
 var params = {
   AttributeDefinitions: [
@@ -35,6 +35,6 @@ var params = {
 };
 
 dynamodb.createTable(params, function(err, data) {
-  if (err) console.log(err, err.stack); // an error occurred
-  else     console.log(data);           // successful response
+  if (err) console.log(err, err.stack); 
+  else     console.log(data);
 });
